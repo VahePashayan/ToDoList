@@ -12,17 +12,28 @@ class ToDo extends Component {
       tasksList: [],
     };
   }
+
   inputList = [];
 
+  id = 0;
+
   handleAdd = () => {
-    this.inputList.push(this.state.inputValue);
+    this.id = this.id + 1;
+    this.inputList.push({ value: this.state.inputValue, id: this.id });
     this.setState({ tasksList: this.inputList });
     this.setState({ inputValue: "" });
-    console.log(this.inputList);
+    console.log(this.state.tasksList);
   };
 
   handleChange = (e) => {
     this.setState({ inputValue: e.target.value });
+  };
+
+  handleDelete = () => {
+    this.setState(({ tasksList }) => ({
+      tasksList: tasksList.filter((el) => el.id !== this.id),
+    }));
+    console.log(this.state.tasksList);
   };
 
   render() {
@@ -35,7 +46,7 @@ class ToDo extends Component {
             onClick={this.handleAdd}
           />
         </span>
-        <Task list={this.state.tasksList} />
+        <Task list={this.state.tasksList} onClick={this.handleDelete}/>
       </div>
     );
   }

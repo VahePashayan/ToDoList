@@ -1,11 +1,10 @@
 import React from 'react'
 
-const Task = ({list}) => {
+const Task = ({list, onClick}) => {
     return list.map((el) => 
     <span> 
-        <p>{el}</p> 
-        <button>Edit</button>
-        <button>Delete</button> 
+        <p>{el.value}</p> 
+        <button onClick={onClick}>Delete</button> 
     </span>)
 }
  
