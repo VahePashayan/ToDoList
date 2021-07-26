@@ -15,12 +15,17 @@ class ToDo extends Component {
 
   id = 0;
 
-
   handleAdd = () => {
     if (this.state.inputValue.length > 0) {
       this.id = this.id + 1;
-      this.setState((prevState) => { 
-        return {tasksList: [...prevState.tasksList, { value: this.state.inputValue, id: this.id }], inputValue: ""} 
+      this.setState((prevState) => {
+        return {
+          tasksList: [
+            ...prevState.tasksList,
+            { value: this.state.inputValue, id: this.id },
+          ],
+          inputValue: "",
+        };
       });
     }
   };
@@ -30,10 +35,11 @@ class ToDo extends Component {
   };
 
   handleDelete = (id) => {
-      this.setState((prevState) => {
-        return { tasksList: prevState.tasksList.filter((el) => el.id !== id) };
-      });
-    }
+    this.setState((prevState) => {
+      return { tasksList: prevState.tasksList.filter((el) => el.id !== id) };
+    });
+  };
+
 
   render() {
     return (
@@ -45,7 +51,7 @@ class ToDo extends Component {
             onClick={this.handleAdd}
           />
         </span>
-        <Task  list={this.state.tasksList} onClick={this.handleDelete}/>
+        <Task list={this.state.tasksList} onClick={this.handleDelete} />
       </div>
     );
   }
