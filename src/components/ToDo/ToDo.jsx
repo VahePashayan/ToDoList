@@ -13,26 +13,25 @@ class ToDo extends Component {
     };
   }
 
-  inputList = [];
-
   id = 0;
 
+
   handleAdd = () => {
-    this.id = this.id + 1;
-    this.inputList.push({ value: this.state.inputValue, id: this.id });
-    this.setState({ tasksList: this.inputList });
-    this.setState({ inputValue: "" });
-    console.log(this.state.tasksList);
+    if (this.state.inputValue.length > 0) {
+      this.id = this.id + 1;
+      this.setState((prevState) => { 
+        return {tasksList: [...prevState.tasksList, { value: this.state.inputValue, id: this.id }], inputValue: ""} 
+      });
+    }
   };
 
   handleChange = (e) => {
     this.setState({ inputValue: e.target.value });
   };
 
-  handleDelete = () => {
-    this.setState(({ tasksList }) => ({
-      tasksList: tasksList.filter((el) => el.id !== this.id),
-    }));
+  handleDelete = (id) => {
+    let filteredList = this.inputList.filter((el) => el.id !== id);
+    this.setState({ tasksList: filteredList });
     console.log(this.state.tasksList);
   };
 
@@ -46,7 +45,22 @@ class ToDo extends Component {
             onClick={this.handleAdd}
           />
         </span>
-        <Task list={this.state.tasksList} onClick={this.handleDelete}/>
+        {/* <Task  list={this.state.tasksList} onClick={this.handleDelete}/> */}
+        {this.state.tasksList.map(({ value, id }) => (
+          <span>
+            <p>{value}</p>
+            <button
+              className="bg-blue-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
+              onClick={() => {
+                this.setState((prevState) => {
+                  return { tasksList: prevState.tasksList.filter((el) => el.id !== id) };
+                });
+              }}
+            >
+              Delete
+            </button>
+          </span>
+        ))}
       </div>
     );
   }
