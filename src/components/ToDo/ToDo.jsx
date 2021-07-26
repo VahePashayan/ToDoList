@@ -28,7 +28,23 @@ class ToDo extends Component {
         };
       });
     }
+    localStorage.setItem("state", JSON.stringify(this.state));
   };
+
+  componentDidMount() {
+    this.stateData = JSON.parse(localStorage.getItem("state"));
+    if(localStorage.getItem("state")) {
+      this.setState({
+        inputValue: this.stateData.inputValue,
+        tasksList: this.stateData.tasksList
+      })
+    }else {
+      this.setState({
+        inputValue: "",
+        tasksList: []
+      })
+    }
+  }
 
   handleChange = (e) => {
     this.setState({ inputValue: e.target.value });
