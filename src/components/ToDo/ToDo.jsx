@@ -30,10 +30,10 @@ class ToDo extends Component {
   };
 
   handleDelete = (id) => {
-    let filteredList = this.inputList.filter((el) => el.id !== id);
-    this.setState({ tasksList: filteredList });
-    console.log(this.state.tasksList);
-  };
+      this.setState((prevState) => {
+        return { tasksList: prevState.tasksList.filter((el) => el.id !== id) };
+      });
+    }
 
   render() {
     return (
@@ -45,22 +45,7 @@ class ToDo extends Component {
             onClick={this.handleAdd}
           />
         </span>
-        {/* <Task  list={this.state.tasksList} onClick={this.handleDelete}/> */}
-        {this.state.tasksList.map(({ value, id }) => (
-          <span>
-            <p>{value}</p>
-            <button
-              className="bg-blue-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full"
-              onClick={() => {
-                this.setState((prevState) => {
-                  return { tasksList: prevState.tasksList.filter((el) => el.id !== id) };
-                });
-              }}
-            >
-              Delete
-            </button>
-          </span>
-        ))}
+        <Task  list={this.state.tasksList} onClick={this.handleDelete}/>
       </div>
     );
   }
