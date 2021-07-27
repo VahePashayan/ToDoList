@@ -19,43 +19,49 @@ class ToDo extends Component {
     if (this.state.inputValue.length > 0) {
       this.id = this.id + 1;
       this.setState((prevState) => {
-        return {
+        const newState = {
           tasksList: [
             ...prevState.tasksList,
             { value: this.state.inputValue, id: this.id },
           ],
           inputValue: "",
         };
+        localStorage.setItem("state", JSON.stringify(newState));
+        return newState;
       });
     }
-    localStorage.setItem("state", JSON.stringify(this.state));
   };
 
   componentDidMount() {
-    this.stateData = JSON.parse(localStorage.getItem("state"));
-    if(localStorage.getItem("state")) {
+    const stateData = JSON.parse(localStorage.getItem("state"));
+    if (localStorage.getItem("state")) {
       this.setState({
-        inputValue: this.stateData.inputValue,
-        tasksList: this.stateData.tasksList
-      })
-    }else {
+        inputValue: stateData.inputValue,
+        tasksList: stateData.tasksList,
+      });
+    } else {
       this.setState({
         inputValue: "",
-        tasksList: []
-      })
+        tasksList: [],
+      });
     }
   }
 
   handleChange = (e) => {
-    this.setState({ inputValue: e.target.value });
+    this.setState(() => {
+      const newItem = { inputValue: e.target.value }
+      localStorage.setItem("state", JSON.stringify(newItem));
+      return newItem;
+    });
   };
 
   handleDelete = (id) => {
     this.setState((prevState) => {
-      return { tasksList: prevState.tasksList.filter((el) => el.id !== id) };
+      const deletedItem ={ tasksList: prevState.tasksList.filter((el) => el.id !== id) };
+      localStorage.setItem("state", JSON.stringify(deletedItem));
+      return deletedItem;
     });
   };
-
 
   render() {
     return (
