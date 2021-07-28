@@ -26,7 +26,6 @@ class ToDo extends Component {
           ],
           inputValue: "",
         };
-        localStorage.setItem("state", JSON.stringify(newState));
         return newState;
       });
     }
@@ -47,10 +46,13 @@ class ToDo extends Component {
     }
   }
 
+  componentDidUpdate() {
+    localStorage.setItem("state", JSON.stringify(this.state));
+  }
+
   handleChange = (e) => {
     this.setState(() => {
       const newItem = { inputValue: e.target.value }
-      localStorage.setItem("state", JSON.stringify(newItem));
       return newItem;
     });
   };
@@ -58,7 +60,6 @@ class ToDo extends Component {
   handleDelete = (id) => {
     this.setState((prevState) => {
       const deletedItem ={ tasksList: prevState.tasksList.filter((el) => el.id !== id) };
-      localStorage.setItem("state", JSON.stringify(deletedItem));
       return deletedItem;
     });
   };
